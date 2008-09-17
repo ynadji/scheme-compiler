@@ -1,0 +1,6 @@
+(define (compile-program x)
+  (printf ".text\n")
+  (printf ".globl _scheme_entry\n")
+  (printf "_scheme_entry:\n")
+  (printf "movl $~a, %eax\n" x)
+  (printf "ret\n"))
