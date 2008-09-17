@@ -1,0 +1,4 @@
+== CS 541 - Scheme Compiler ==
+- This is the code for a Scheme to x86 compiler for
+a large subset of RSR5 Scheme for CS 541 - Graduate Compilers.
+It's an independent study course with Beckman, and will totally rule.
