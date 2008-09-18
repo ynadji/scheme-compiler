@@ -12,6 +12,9 @@
 
 (define wordsize 4)
 
+(define (immediate? x)
+  (or (integer? x) (boolean? x) (char? x) (null? x)))
+
 (define (immediate-rep x)
   (cond ((integer? x)
          (arithmetic-shift x fixnum-shift))
@@ -24,9 +27,13 @@
         ((null? x)
          hex-null)))
 
+(define (emit-expr x)
+  (cond ((immediate? x)
+         (printf "movl $~a, %eax\n" (immediate-rep x)))))
+
 (define (compile-program x)
   (printf ".text\n")
   (printf ".globl _scheme_entry\n")
   (printf "_scheme_entry:\n")
-  (printf "movl $~a, %eax\n" (immediate-rep x))
+  (emit-expr x)
   (printf "ret\n"))
