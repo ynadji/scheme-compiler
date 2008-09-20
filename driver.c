@@ -11,8 +11,9 @@
 
 #define hex_null	0x2f
 
-#define bool_t		0x9f
-#define bool_f		0x1f
+#define bool_tag	0x3f
+#define bool_mask	0x7f
+#define bool_shift	7
 
 #define WORD_SIZE	4
 
@@ -27,6 +28,11 @@ int main(int argc, char** argv) {
 	{
 		printf("%c\n", val >> char_shift);
 	}
+	else if ((val & bool_mask) == bool_tag)
+	{
+		printf("%s\n", val >> bool_shift ? "#t" : "#f");
+	}
+	/**
 	else if (val == bool_t)
 	{
 		printf("#t\n");
@@ -35,6 +41,7 @@ int main(int argc, char** argv) {
 	{
 		printf("#f\n");
 	}
+	*/
 	else if (val == hex_null)
 	{
 		printf("()\n");
