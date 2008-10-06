@@ -16,7 +16,9 @@
 (define wordsize 4)
 
 ;; debug statements, set this to true to print 'em
-(define debug #f)
+;(define debug #t)
+; debug is now passed in by the shell script so i can more easily
+; turn it on and off
 
 (define (print-debug msg args)
   (if debug
