@@ -179,7 +179,6 @@
          (labels (unique-labels lvars))
          (env (make-initial-env lvars labels)))
     (for-each (emit-lambda env) lambdas labels)
-;    (printf "\tret\n")
     (emit-scheme-entry (body x) env)))
 
 (define (emit-scheme-entry body env)
@@ -209,6 +208,15 @@
   (printf ".globl _~a\n" label)
   (printf "_~a:\n" label))
 
+;; this is atrocious, here's how it works
+;; if EMIT-APP is given (app ... ) as expr,
+;; it calls emit-app for the CDR, or rather, the function call itself.
+;; so (app func arg1 arg2) will be called with (emit-app si env (cdr expr))
+;; or (func arg1 arg2). This places the code to evaluate the arguments, place
+;; them on the stack, and call func. The WHEN clause is to prevent
+;; the (app ... ) form from being evaluated. This is horrible and
+;; hacky, and you should probably make it less retarded. On the flip side,
+;; it works.
 (define (emit-app si env expr)
   (define (emit-arguments si args)
     (print-debug '("emit-arguments=> si: ~a\n" "args: ~a\n" "env: ~a\n\n") (list si args env))
@@ -238,9 +246,6 @@
 (define (call-target expr)
   (print-debug '("call-target: ~a\n") (list expr))
   (car expr))
-;  (if (app? expr)
-;      (cadr expr)
-;      (car expr)))
 
 (define (emit-call si label)
   (print-debug '("emit-call: si => ~a\n") (list si))
@@ -274,10 +279,6 @@
         ((letrec? x)
          (print-debug '("letrec found: ~a\n") (list x))
          (emit-letrec x))
-        ; i don't think this is necessary
-;        ((lambda? x)
-;         (print-debug '("lambda found: ~a\n") (list x))
-;         ((emit-lambda env)
         ((app? x)
          (print-debug '("app found: ~a\n") (list x))
          (emit-app si env x))
@@ -291,8 +292,5 @@
 
 ;; COMPILE DAT!!!
 (define (compile-program x)
-;  (printf ".text\n")
-;  (printf ".globl _scheme_entry\n")
-;  (printf "_scheme_entry:\n")
   (emit-expr x -4 '())
   (printf "\tret\n"))
