@@ -30,8 +30,14 @@
 (define (extend-env var-name si env)
   (cons (cons var-name si) env))
 
+(define (make-initial-env lvars labels)
+  (map (lambda (x y) (cons x y)) lvars labels))
+
 (define (lookup x env)
-  (cdr (assoc x env)))
+  (let ((res (assoc x env)))
+    (if res
+        (cdr res)
+        res)))
 
 ;; function lookups
 (define (func-to-asm func)
@@ -42,6 +48,10 @@
                  (= sete) (char=? sete)
                  (>= setge) (char>=? setge)
                  (<= setle) (char<=? setle)))))
+
+;; label stuff
+(define (unique-labels vars)
+  (map gensym vars))
 
 ;; accessor functions
 (define (primcall-func x)
@@ -74,3 +84,8 @@
 (define (false-branch x)
   (cadddr x))
 
+(define (lambda-formals x)
+  (cadr x))
+
+(define (lambda-body x)
+  (caddr x))
