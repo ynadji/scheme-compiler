@@ -1,5 +1,6 @@
 ;; loads all our helper functions
 (load "accessor-and-constants.scm")
+(load "tests.scm")
 
 ;;;; predicate block ;;;;
 ;;; these are the predicates to determine 
@@ -43,6 +44,25 @@
 
 (define (app? x)
   (eq? (car x) 'app))
+
+(define (tail-call? expr fname)
+  (print-debug '("tail-call?:\n\texpr: ~a\n\tfname: ~a\n") (list expr fname))
+  (cond ((or (immediate? expr)
+             (variable? expr))
+         #t)
+        ((lambda? expr)
+         (tail-call? (lambda-body expr) fname))
+        ((let? expr)
+         (tail-call? (body expr) fname))
+        ((if? expr)
+         (and (tail-call? (true-branch expr) fname)
+              (tail-call? (false-branch expr) fname)))
+        (else
+         (when (app? expr)
+           (set! expr (cdr expr)))
+         (and (eq? (car expr) fname)
+              (andmap (letrec ((f (lambda (x) (if (list? x) (andmap f x) (not (eq? x fname)))))) f) (cdr expr))))))
+                  
 
 ;; uses our flags to set the type of the immediate value
 (define (immediate-rep x)
@@ -151,6 +171,18 @@
     (emit-jump "jmp" L1)
     (emit-label L0)
     (emit-expr altern si env)
+    (emit-label L1)))
+
+(define (emit-tail-if test conseq altern si env)
+  (let ((L0 (gensym))
+        (L1 (gensym)))
+    (emit-expr test si env)
+    (printf "\tcmpl $~a, %eax\n" bool-f)
+    (emit-jump "je" L0)
+    (emit-tail-expr conseq si env)
+    (emit-jump "jmp" L1)
+    (emit-label L0)
+    (emit-tail-expr altern si env)
     (emit-label L1)))
 
 (define (emit-cons x si env hi)
@@ -289,6 +321,22 @@
         (else
          (print-debug '("function call found: ~a\n") (list x))
          (emit-app si env x))))
+
+(define (emit-tail-expr expr si env)
+  (cond
+   ((immediate? expr)
+    (emit-tail-immediate expr))
+   ((variable? expr)
+    (emit-tail-variable-ref env expr))
+   ((if? expr)
+    (emit-tail-if (if-condition x) (true-branch x) (false-branch x) si env))
+   ((let? expr)
+    (emit-tail-let si env expr))
+   ((primcall? expr)
+    (emit-tail-primcall si env expr))
+   ((app? expr)
+    (emit-tail-app si env expr))
+   (else (error "no tail shtuff"))))
 
 ;; COMPILE DAT!!!
 (define (compile-program x)

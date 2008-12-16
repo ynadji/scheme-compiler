@@ -21,7 +21,7 @@
 ; turn it on and off
 
 (define (print-debug msg args)
-  (if debug
+  (when debug
       (map (lambda (x y)
              (printf "DEBUG: ")
              (printf x y)) msg args)))
