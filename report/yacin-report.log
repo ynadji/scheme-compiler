@@ -1,4 +1,4 @@
-This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2007.11.4)  15 DEC 2008 20:25
+This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2007.11.4)  15 DEC 2008 21:41
 entering extended mode
  file:line:error style messages enabled.
 **yacin-report.tex
@@ -51,7 +51,7 @@ File: pdftex.def 2002/06/19 v0.03k graphics/color for pdftex
 \Gin@req@height=\dimen103
 \Gin@req@width=\dimen104
 )
-No file yacin-report.aux.
+(./yacin-report.aux)
 \openout1 = `yacin-report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
@@ -66,8 +66,8 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
 LaTeX Font Info:    ... okay on input line 27.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
 LaTeX Font Info:    ... okay on input line 27.
-(/opt/local/share/texmf-dist/tex/context/base/supp-pdf.tex
-(/opt/local/share/texmf-dist/tex/context/base/supp-mis.tex
+ (/opt/local/share/texmf-dist/tex/context/base/supp-pdf.tex (/opt/local/share/t
+exmf-dist/tex/context/base/supp-mis.tex
 loading : Context Support Macros / Miscellaneous (2004.10.26)
 \protectiondepth=\count88
 \scratchcounter=\count89
@@ -111,13 +111,13 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 {/opt/local/share/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 (./yacin-report.aux) ) 
 Here is how much of TeX's memory you used:
- 888 strings out of 94500
- 10851 string characters out of 1174973
- 56801 words of memory out of 1000000
+ 890 strings out of 94500
+ 10885 string characters out of 1174973
+ 58801 words of memory out of 1000000
  4109 multiletter control sequences out of 10000+50000
  6675 words of font info for 24 fonts, out of 500000 for 2000
  580 hyphenation exceptions out of 1000
- 25i,6n,21p,228b,187s stack positions out of 1500i,500n,5000p,200000b,5000s
+ 25i,6n,21p,829b,187s stack positions out of 1500i,500n,5000p,200000b,5000s
 PDF statistics:
  13 PDF objects out of 300000
  0 named destinations out of 131072
@@ -125,4 +125,4 @@ PDF statistics:
 </opt/local/share/texmf-dist/fonts/type1/bluesky/cm/cmr10
 .pfb></opt/local/share/texmf-dist/fonts/type1/bluesky/cm/cmr12.pfb></opt/local/
 share/texmf-dist/fonts/type1/bluesky/cm/cmr17.pfb>
-Output written on yacin-report.pdf (1 page, 16670 bytes).
+Output written on yacin-report.pdf (1 page, 24059 bytes).
